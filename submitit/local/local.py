@@ -211,7 +211,14 @@ class LocalExecutor(core.PicklingExecutor):
 
     @property
     def _submitit_command_str(self) -> str:
-        return " ".join([self.python, "-u -m submitit.core._submit", shlex.quote(str(self.folder))])
+        ntasks = self.parameters.get("tasks_per_node", 1)
+        if ntasks == 1:
+            run_cmd = "python"
+        else:
+            run_cmd = f"mpiexec --oversubscribe --allow-run-as-root -n {ntasks} python"
+        return " ".join(
+            [run_cmd, "-u -m submitit.core._submit", shlex.quote(str(self.folder))]
+        )
 
     def _num_tasks(self) -> int:
         nodes: int = 1
