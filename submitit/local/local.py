@@ -197,7 +197,7 @@ class LocalExecutor(core.PicklingExecutor):
         process = start_controller(
             folder=self.folder,
             command=command,
-            tasks_per_node=ntasks,
+            tasks_per_node=1,
             cuda_devices=",".join(str(k) for k in gpus),
             timeout_min=self.parameters.get("timeout_min", 2.0),
             signal_delay_s=self.parameters.get("signal_delay_s", 30),
@@ -205,7 +205,7 @@ class LocalExecutor(core.PicklingExecutor):
             setup=self.parameters.get("setup", ()),
         )
         job: LocalJob[R] = LocalJob(
-            folder=self.folder, job_id=str(process.pid), process=process, tasks=list(range(ntasks))
+            folder=self.folder, job_id=str(process.pid), process=process, tasks=list(range(1))
         )
         return job
 
