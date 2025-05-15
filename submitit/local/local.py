@@ -222,7 +222,7 @@ class LocalExecutor(core.PicklingExecutor):
         if ntasks == 1:
             run_cmd = "python"
         else:
-            run_cmd = f"mpiexec --oversubscribe --allow-run-as-root -n {ntasks} python"
+            run_cmd = f"mpiexec --oversubscribe --allow-run-as-root -n {ntasks} python3"
         return " ".join(
             [run_cmd, "-u -m submitit.core._submit", shlex.quote(str(self.folder))]
         )
